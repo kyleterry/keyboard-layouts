@@ -57,7 +57,7 @@ define MATCH_KEYBOARD
   endif
 endef
 
-.PHONY: keyboards
+.PHONY: keyboards keyboards/%
 keyboards/%: $(OUT)
 	$(eval $(call MATCH_KEYBOARD,$*))
 	$(DOCKER) run -it --rm \
