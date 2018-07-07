@@ -36,21 +36,22 @@ define MATCH_KEYBOARD
   ifneq ($$(filter $$(KEYBOARD),$$(KEYBOARDS)),)
     LAYOUT := $$(lastword $$(subst /, ,$1))
     $$(eval $$(call GET_LAYOUTS))
+    $$(eval $$(call echo $$(LAYOUTS)))
     ifeq ($$(filter $$(LAYOUT),$$(LAYOUTS)),)
       $$(info make: *** No rule to make target '$1'. Stop.)
-      $$(info | No layout exists with that name. Please use `make keyboard/layout`)
+      $$(info | No layout exists with that name. Please use `make keyboards/keyboard/layout`)
       $$(BUILD_ERRORS)
     endif
   else
     $$(info make: *** No rule to make target '$1'. Stop.)
-    $$(info | No keyboard exists with that name. Please use `make keyboard/layout`)
+    $$(info | No keyboard exists with that name. Please use `make keyboards/keyboard/layout`)
     $$(BUILD_ERRORS)
   endif
 endef
 
-.PHONY: %
-%: $(OUT)
-	$(eval $(call MATCH_KEYBOARD,$@))
+.PHONY: keyboards
+keyboards/%: $(OUT)
+	$(eval $(call MATCH_KEYBOARD,$*))
 	$(DOCKER) run -it --rm \
 		-v $(PWD)/keyboards/$(KEYBOARD)/$(LAYOUT):/build/keyboards/$(KEYBOARD)/keymaps/$(NAMESPACE)-$(LAYOUT) \
 		-v $(PWD)/$(OUT):/build/out \

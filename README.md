@@ -13,6 +13,6 @@ the container and then runs QMK's `make` target like normal.
 
 ## Usage
 
-`make keyboard/layout`
+`make keyboards/keyboard/layout`
 
 Resulting firmware will be in `./out/keyboard-layout.hex`.
