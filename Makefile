@@ -6,10 +6,6 @@ OUT                := out
 FORCE_PERMS        := true
 BUILD_ERRORS       = exit 1
 
-.PHONY: build-builder release-builder
-build-builder: ; $(DOCKER) build -t $(BUILDER_IMAGE_NAME) .
-release-builder: ; $(DOCKER) push $(BUILDER_IMAGE_NAME)
-
 define GET_KEYBOARDS
   KEYBOARDS := $$(sort $$(patsubst keyboards/%/,%,$$(dir $$(wildcard keyboards/*/))))
 endef
@@ -18,11 +14,23 @@ define GET_LAYOUTS
   LAYOUTS := $$(sort $$(patsubst keyboards/$(KEYBOARD)/%/,%,$$(dir $$(wildcard keyboards/$(KEYBOARD)/*/))))
 endef
 
-$(eval $(call GET_KEYBOARDS))
+define GET_VARIANTS
+  VARIANTS := $$(sort $$(patsubst keyboards/%/,%,$$(dir $$(wildcard keyboards/*/*/))))
+endef
 
-.PHONY: clean
+$(eval $(call GET_KEYBOARDS))
+$(eval $(call GET_VARIANTS))
+
+.PHONY: all
+all: $(foreach variant, $(VARIANTS), keyboards/$(variant))
+
+.PHONY: list-keyboards
 list-keyboards:
-	echo $(KEYBOARDS)
+	@echo $(KEYBOARDS)
+
+.PHONY: list-variants
+list-variants:
+	@echo $(VARIANTS)
 
 .PHONY: clean
 clean:
@@ -61,3 +69,7 @@ keyboards/%: $(OUT)
 ifeq ($(FORCE_PERMS),true)
 	sudo chown $(USER):$(USER) $(OUT)/$(KEYBOARD)-$(LAYOUT).hex
 endif
+
+.PHONY: build-builder release-builder
+build-builder: ; $(DOCKER) build -t $(BUILDER_IMAGE_NAME) .
+release-builder: ; $(DOCKER) push $(BUILDER_IMAGE_NAME)
