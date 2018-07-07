@@ -57,7 +57,7 @@ keyboards/%: $(OUT)
 		-v $(PWD)/$(OUT):/build/out \
 		$(BUILDER_IMAGE_NAME) \
 		bash -c \
-		"make $(KEYBOARD):$(NAMESPACE)-$(LAYOUT) && cp .build/$(KEYBOARD)_$(NAMESPACE)-$(LAYOUT).hex out/$(KEYBOARD)-$(LAYOUT).hex"
+		"make $(KEYBOARD):$(NAMESPACE)-$(LAYOUT) && cp .build/$(KEYBOARD)*_$(NAMESPACE)-$(LAYOUT).hex out/$(KEYBOARD)-$(LAYOUT).hex"
 ifeq ($(FORCE_PERMS),true)
 	sudo chown $(USER):$(USER) $(OUT)/$(KEYBOARD)-$(LAYOUT).hex
 endif
