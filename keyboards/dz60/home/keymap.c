@@ -104,11 +104,3 @@ qk_tap_dance_action_t tap_dance_actions[] = {
   [TD_GO] = ACTION_TAP_DANCE_FN(dance_go),
   [TD_OW] = ACTION_TAP_DANCE_FN(dance_ow)
 };
-
-void led_set_user(uint8_t usb_led) {
-    if (usb_led & (1 << USB_LED_CAPS_LOCK)) {
-        DDRB |= (1 << 2); PORTB &= ~(1 << 2);
-    } else {
-        DDRB &= ~(1 << 2); PORTB &= ~(1 << 2);
-    }
-}
