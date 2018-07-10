@@ -16,3 +16,18 @@ the container and then runs QMK's `make` target like normal.
 `make keyboards/keyboard/layout`
 
 Resulting firmware will be in `./out/keyboard-layout.hex`.
+
+### Flashing
+
+Flash the resulting firmware with dfu-programmer:
+
+```
+$ sudo dfu-programmer atmega32u4 erase
+$ sudo dfu-programmer atmega32u4 flash out/dz60-default.hex
+$ sudo dfu-programmer atmega32u4 reset
+```
+
+## Useful stuff
+
+The proper udev rules need to be added in order to access the MCU and flash the
+chip on your microcontroller: https://github.com/qmk/qmk_firmware/blob/master/docs/faq_build.md#linux-udev-rules
