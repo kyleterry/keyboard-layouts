@@ -88,15 +88,19 @@ void dance_ow(qk_tap_dance_state_t *state, void *user_data) {
     case 1:
       tap_key(KC_7);
       reset_tap_dance (state);
+      break;
     case 2:
       tap_key(KC_8);
       reset_tap_dance (state);
+      break;
     case 3:
       tap_key(KC_9);
       reset_tap_dance (state);
+      break;
     case 4:
       tap_key(KC_0);
       reset_tap_dance (state);
+      break;
   }
 }
 
