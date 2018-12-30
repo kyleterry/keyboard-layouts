@@ -16,9 +16,11 @@ enum keyboard_layers {
 
 enum {
   /* tap dance shortcuts for go programming */
-  TD_GO = 0,
+  TD_GO,
   /* tap dance shortcuts for overwatch voicelines */
-  TD_OW = 1
+  TD_OW,
+  /* tap dance shortcuts for media keys */
+  TD_MD
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -41,7 +43,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ______, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12, KC_NO, KC_DEL,
   ______, TO(_QWERTY), TO(_GAMING), ______, ______, ______, ______, KC_PAUS, KC_INS, ______, KC_PSCR, ______, ______, RESET,
   ______, ______, ______, ______, ______, ______, ______, ______, ______, ______, ______, ______, ______,
-  ______, KC_NO, RGB_TOG, RGB_MOD, RGB_HUI, RGB_HUD, RGB_SAI, RGB_SAD, RGB_VAI, RGB_VAD, ______, ______, ______, KC_MPLY,
+  ______, KC_NO, RGB_TOG, RGB_MOD, RGB_HUI, RGB_HUD, RGB_SAI, RGB_SAD, RGB_VAI, RGB_VAD, ______, ______, ______, TD(TD_MD),
   ______, ______, ______, ______, ______, ______, ______, ______, ______, ______, KC_MNXT),
 
 [_FN2] = LAYOUT(
@@ -53,14 +55,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 };
 
-void tap_key(uint16_t keycode)
-{
+void tap_key(uint16_t keycode) {
   register_code  (keycode);
   unregister_code(keycode);
 }
 
-void shift_key(uint16_t keycode)
-{
+void shift_key(uint16_t keycode) {
   register_code  (KC_LSFT);
   tap_key        (keycode);
   unregister_code(KC_LSFT);
@@ -107,7 +107,21 @@ void dance_ow(qk_tap_dance_state_t *state, void *user_data) {
   }
 }
 
+void dance_media(qk_tap_dance_state_t *state, void *user_data) {
+  switch (state->count) {
+    case 1:
+      tap_key(KC_MPLY);
+      reset_tap_dance(state);
+      break;
+    case 2:
+      tap_key(KC_MUTE);
+      reset_tap_dance(state);
+      break;
+  }
+}
+
 qk_tap_dance_action_t tap_dance_actions[] = {
   [TD_GO] = ACTION_TAP_DANCE_FN(dance_go),
-  [TD_OW] = ACTION_TAP_DANCE_FN(dance_ow)
+  [TD_OW] = ACTION_TAP_DANCE_FN(dance_ow),
+  [TD_MD] = ACTION_TAP_DANCE_FN(dance_media)
 };

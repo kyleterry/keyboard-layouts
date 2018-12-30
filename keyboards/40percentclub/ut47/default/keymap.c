@@ -37,6 +37,11 @@ enum ut47_layers {
   _L3
 };
 
+enum {
+  /* tap dance shortcuts for media keys */
+  TD_MD
+};
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   /* QWERTY Layer
@@ -83,14 +88,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * |-------------------------------------------------------------------------+
    * |       | F1  | F2  | F3  | F4  | F5  | F6  | F7  | F8  | F9  | F10 |     |
    * |-------------------------------------------------------------------------+
-   * |     |     |     |     |      |          |       | Home| PgDn| PgUp| End |
+   * |     |     |     |     |      |          |       | Nxt| Stop| pl/mt| Prv |
    * `-------------------------------------------------------------------------'
    */
 [_L2] = LAYOUT(
   KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_DEL,
   _______, _______, _______, _______, _______, _______, _______, KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE,
   _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  _______,
-  _______, _______, _______, _______, _______,     _______,      _______, KC_HOME, KC_PGDN, KC_PGUP, KC_END
+  _______, _______, _______, _______, _______,     _______,      _______, KC_MPRV, KC_MSTP, TD(TD_MD), KC_MNXT
 ),
 
   /* Layer 3
@@ -122,6 +127,12 @@ void led_chmode(void) {
 void led_toggle(void) {
   serial_send(100);
 }
+#endif
+
+void tap_key(uint16_t keycode) {
+  register_code  (keycode);
+  unregister_code(keycode);
+}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (record->event.pressed) {
@@ -140,4 +151,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
   return true;
 };
-#endif
+
+void dance_media(qk_tap_dance_state_t *state, void *user_data) {
+  switch (state->count) {
+    case 1:
+      tap_key(KC_MPLY);
+      reset_tap_dance(state);
+      break;
+    case 2:
+      tap_key(KC_MUTE);
+      reset_tap_dance(state);
+      break;
+  }
+}
+
+qk_tap_dance_action_t tap_dance_actions[] = {
+  [TD_MD] = ACTION_TAP_DANCE_FN(dance_media)
+};
