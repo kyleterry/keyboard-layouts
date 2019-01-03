@@ -125,3 +125,38 @@ qk_tap_dance_action_t tap_dance_actions[] = {
   [TD_OW] = ACTION_TAP_DANCE_FN(dance_ow),
   [TD_MD] = ACTION_TAP_DANCE_FN(dance_media)
 };
+
+void matrix_init_user(void) {
+  #ifdef RGBLIGHT_ENABLE
+  rgblight_setrgb_teal();
+  #endif
+};
+
+uint32_t layer_state_set_user(uint32_t state) {
+  uint8_t layer = biton32(state);
+
+  switch(layer) {
+    case _QWERTY:
+      #ifdef RGBLIGHT_ENABLE
+      rgblight_setrgb_teal();
+      #endif
+      break;
+    case _GAMING:
+      #ifdef RGBLIGHT_ENABLE
+      rgblight_setrgb_orange();
+      #endif
+      break;
+    case _FN1:
+      #ifdef RGBLIGHT_ENABLE
+      rgblight_setrgb_magenta();
+      #endif
+      break;
+    case _FN2:
+      #ifdef RGBLIGHT_ENABLE
+      rgblight_setrgb_green();
+      #endif
+      break;
+  }
+
+  return state;
+};
