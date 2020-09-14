@@ -1,6 +1,7 @@
 #pragma once
 
-#define LAYOUT_wrapper(...) LAYOUT(__VA_ARGS__)
+#define LAYOUT_wrapper(...)                  LAYOUT(__VA_ARGS__)
+#define LAYOUT_ortho_4x12_wrapper(...)       LAYOUT_ortho_4x12(__VA_ARGS__)
 
 #define ___________________BLANK___________________                 _______, _______, _______, _______, _______
 #define ___________________BLANK_6__________________________        ___________________BLANK___________________, _______
