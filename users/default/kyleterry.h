@@ -16,3 +16,5 @@ enum userspace_layers {
   _NUM,
   _FUN
 };
+
+layer_state_t layer_state_set_rgb(layer_state_t state);
