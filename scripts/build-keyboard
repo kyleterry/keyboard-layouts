@@ -1,0 +1,24 @@
+#!/bin/bash
+
+source "$(dirname "$0")"/build-info.sh
+
+build_keyboard() {
+    pushd "$(dirname "$0")"/.. > /dev/null
+        local kb
+        local km
+        kb="$(dirname "${1}")"
+        km="$(basename "${1}")"
+
+        docker run --rm \
+            -v $(pwd):/keyboard-layouts \
+            -u $(id -u):$(id -g) \
+            -e LOCAL_KEYBOARD_PATH="${1}" \
+            -e KEYBOARD="${kb}" \
+            -e KEYMAP="kl-${km}" \
+            "${BUILDER_IMAGE_NAME}" \
+            /keyboard-layouts/scripts/link-and-build-keyboard
+
+    popd > /dev/null
+}
+
+build_keyboard $@

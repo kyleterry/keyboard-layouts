@@ -1,0 +1,5 @@
+#pragma once
+
+#define RGBLIGHT_ANIMATIONS
+#define LEADER_PER_KEY_TIMING
+#define LEADER_TIMEOUT 250

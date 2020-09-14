@@ -1,0 +1,10 @@
+#!/bin/bash
+
+cd "${QMK_HOME}"
+
+ln -s /keyboard-layouts/keyboards/"${LOCAL_KEYBOARD_PATH}" "${QMK_HOME}"/keyboards/${KEYBOARD}/keymaps/"${KEYMAP}"
+ln -s /keyboard-layouts/users/default "${QMK_HOME}"/users/"${KEYMAP}"
+
+qmk compile -kb "${KEYBOARD}" -km "${KEYMAP}"
+
+cp .build/*.hex /keyboard-layouts/

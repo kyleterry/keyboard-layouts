@@ -13,7 +13,7 @@ the container and then runs QMK's `make` target like normal.
 
 ## Example usage
 
-`make dz60/default`
+`./scripts/build-keyboard dz60/default`
 
 Resulting firmware will be in `./dz60-default.hex`.
 
@@ -22,15 +22,21 @@ Resulting firmware will be in `./dz60-default.hex`.
 ### With DFU (boards like the planck and dz60)
 
 ```
-$ sudo dfu-programmer atmega32u4 erase
-$ sudo dfu-programmer atmega32u4 flash dz60-default.hex
-$ sudo dfu-programmer atmega32u4 reset
+$ dfu-programmer atmega32u4 erase
+$ dfu-programmer atmega32u4 flash dz60-default.hex
+$ dfu-programmer atmega32u4 reset
 ```
 
 ### With Arduino style (usually pro-micro boards)
 
 ```
-$ sudo avrdude -p atmega32u4 -c avr109 -P /dev/ttyACM0 -U flash:w:40percentclub_ut47-default.hex
+$ avrdude -p atmega32u4 -c avr109 -P /dev/ttyACM0 -U flash:w:40percentclub_ut47-default.hex
+```
+
+### With QMK CLI
+
+```
+$ qmk flash dz60-default.hex
 ```
 
 ## Useful stuff
@@ -41,4 +47,5 @@ chip on your microcontroller: https://github.com/qmk/qmk_firmware/blob/master/do
 ## TODO
 
 - Add support for Keyboardio Model-01 layouts
+    - This exists in qmk now.
 - Add layout generator with yaml configuration
