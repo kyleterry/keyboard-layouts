@@ -2,6 +2,7 @@
 
 cd "${QMK_HOME}"
 
+mkdir -p "${QMK_HOME}"/keyboards/${KEYBOARD}/keymaps
 ln -s /keyboard-layouts/keyboards/"${LOCAL_KEYBOARD_PATH}" "${QMK_HOME}"/keyboards/${KEYBOARD}/keymaps/"${KEYMAP}"
 ln -s /keyboard-layouts/users/default "${QMK_HOME}"/users/"${KEYMAP}"
 
