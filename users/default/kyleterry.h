@@ -13,8 +13,7 @@ enum userspace_layers {
   _LOWER,
   _RAISE,
   _ADJUST,
-  _NUM,
-  _FUN
+  _NUM
 };
 
 layer_state_t layer_state_set_rgb(layer_state_t state);
