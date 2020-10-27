@@ -11,3 +11,8 @@
 #define RGBLIGHT_SPLIT
 #define RGBLED_SPLIT { 25, 25 }
 #define DRIVER_LED_TOTAL 50
+#define ENCODERS_PAD_A { B4 }
+#define ENCODERS_PAD_B { B5 }
+
+#define TAPPING_TERM 250
+//#define PERMISSIVE_HOLD

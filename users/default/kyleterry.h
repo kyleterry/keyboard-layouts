@@ -10,10 +10,12 @@
 
 enum userspace_layers {
   _QWERTY,
+  _GAMING,
   _LOWER,
   _RAISE,
   _ADJUST,
-  _NUM
+  _NUM,
+  _MOUSE
 };
 
 layer_state_t layer_state_set_rgb(layer_state_t state);

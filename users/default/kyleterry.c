@@ -12,12 +12,16 @@ layer_state_t layer_state_set_user(layer_state_t state) {
   return layer_state_set_keymap(state);
 }
 
+__attribute__((weak)) void keyboard_post_init_keymap(void) {}
+
 void keyboard_post_init_user(void) {
 #ifdef RGBLIGHT_ENABLE
   rgblight_enable_noeeprom();
   rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
-  rgblight_setrgb_teal();
+  rgblight_setrgb_purple();
 #endif
+
+  keyboard_post_init_keymap();
 }
 
 // borrowed from drashna: https://github.com/qmk/qmk_firmware/blob/master/users/drashna/rgb_stuff.c#L153
@@ -44,6 +48,9 @@ layer_state_t layer_state_set_rgb(layer_state_t state) {
     case _NUM:
       rgblight_set_hsv_and_mode(HSV_ORANGE, RGBLIGHT_MODE_STATIC_LIGHT);
       break;
+    case _MOUSE:
+      rgblight_set_hsv_and_mode(HSV_RED, RGBLIGHT_MODE_STATIC_LIGHT);
+      break;
     default:
       rgblight_set_hsv_and_mode(HSV_PURPLE, RGBLIGHT_MODE_STATIC_LIGHT);
       break;
@@ -52,3 +59,26 @@ layer_state_t layer_state_set_rgb(layer_state_t state) {
 
   return state;
 }
+
+
+#ifdef ENCODER_ENABLE
+__attribute__((weak)) void encoder_update_keymap(uint8_t index, bool clockwise) {}
+
+void encoder_update_user(uint8_t index, bool clockwise) {
+  if (layer_state_is(_RAISE)) {
+    if (clockwise) {
+        tap_code(KC_PGUP);
+    } else {
+        tap_code(KC_PGDN);
+    }
+  } else {
+    if (clockwise) {
+        tap_code(KC_VOLU);
+    } else {
+        tap_code(KC_VOLD);
+    }
+  }
+
+  encoder_update_keymap(index, clockwise);
+}
+#endif
