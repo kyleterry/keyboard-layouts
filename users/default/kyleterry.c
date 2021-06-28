@@ -64,7 +64,7 @@ layer_state_t layer_state_set_rgb(layer_state_t state) {
 #ifdef ENCODER_ENABLE
 __attribute__((weak)) void encoder_update_keymap(uint8_t index, bool clockwise) {}
 
-void encoder_update_user(uint8_t index, bool clockwise) {
+bool encoder_update_user(uint8_t index, bool clockwise) {
   if (layer_state_is(_RAISE)) {
     if (clockwise) {
         tap_code(KC_PGUP);
@@ -80,5 +80,6 @@ void encoder_update_user(uint8_t index, bool clockwise) {
   }
 
   encoder_update_keymap(index, clockwise);
+  return true;
 }
 #endif
