@@ -1,5 +1,7 @@
 #include "kyleterry.h"
 
+userspace_config_t userspace_config;
+
 __attribute__((weak)) layer_state_t layer_state_set_keymap(layer_state_t state) { return state; }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
@@ -81,5 +83,48 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 
   encoder_update_keymap(index, clockwise);
   return true;
+}
+#endif
+
+#ifdef POINTING_DEVICE_ENABLE
+void pointing_device_init_user(void) {
+  pimoroni_trackball_set_rgbw(255,128,0,0);
+}
+
+__attribute__((weak)) report_mouse_t pointing_device_task_keymap(report_mouse_t mouse_report) {
+    return mouse_report;
+}
+
+report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
+    if (userspace_config.is_scrolling) {
+        mouse_report.h = mouse_report.x;
+        mouse_report.v = mouse_report.y;
+        mouse_report.x = mouse_report.y = 0; 
+    }
+
+    return pointing_device_task_keymap(mouse_report);
+}
+
+bool process_record_pointing(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+  case KC_BTN1:
+    if (userspace_config.is_scrolling) {
+      trackball_register_button(record->event.pressed, MOUSE_BTN2);
+    }
+
+    break;
+  }
+
+  return true;
+}
+
+void trackball_register_button(bool pressed, enum mouse_buttons button) {
+    report_mouse_t currentReport = pointing_device_get_report();
+    if (pressed) {
+        currentReport.buttons |= button;
+    } else {
+        currentReport.buttons &= ~button;
+    }
+    pointing_device_set_report(currentReport);
 }
 #endif

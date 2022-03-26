@@ -6,6 +6,7 @@
 #define ADJUST      MO(_ADJUST)
 #define NUM         MO(_NUM)
 #define MOUSE       TG(_MOUSE)
+#define MOMOUSE     MO(_MOUSE)
 #define OS_LGUI     OSM (MOD_LGUI)
 #define OS_RGUI     OSM (MOD_RGUI)
 #define OS_SGUI     OSM (MOD_LGUI | MOD_LSFT) // tap for LGUI + LSHIFT
@@ -18,3 +19,9 @@
 #define ALTT        ALT_T(KC_TAB)  // hold for alt; tap for tab
 #define SFT_EQL     RSFT_T(KC_EQL) // hold for r shift; tap for =
 #define RALTQ       RALT_T(KC_QUOT)
+
+enum {
+    M_SCRL = SAFE_RANGE,
+};
+
+bool process_record_keymap(uint16_t keycode, keyrecord_t *record);
