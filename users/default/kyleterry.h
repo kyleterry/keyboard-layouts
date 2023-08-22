@@ -2,6 +2,7 @@
 #include QMK_KEYBOARD_H
 
 #include "quantum.h"
+#include "pointing_device.h"
 #include "rows.h"
 #include "process_records.h"
 #ifdef TAP_DANCE_ENABLE

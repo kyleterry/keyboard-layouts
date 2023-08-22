@@ -19,6 +19,7 @@
 #define ALTT        ALT_T(KC_TAB)  // hold for alt; tap for tab
 #define SFT_EQL     RSFT_T(KC_EQL) // hold for r shift; tap for =
 #define RALTQ       RALT_T(KC_QUOT)
+#define ALTRBRC     LALT(KC_RBRC)
 
 enum {
     M_SCRL = SAFE_RANGE,

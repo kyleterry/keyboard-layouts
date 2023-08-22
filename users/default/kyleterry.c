@@ -88,7 +88,7 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 
 #ifdef POINTING_DEVICE_ENABLE
 void pointing_device_init_user(void) {
-  pimoroni_trackball_set_rgbw(255,128,0,0);
+  /* pimoroni_trackball_set_rgbw(255,128,0,0); */
 }
 
 __attribute__((weak)) report_mouse_t pointing_device_task_keymap(report_mouse_t mouse_report) {
